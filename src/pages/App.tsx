@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '../store/store';
-import { fetchCats } from '../store/cats/catsSlice';
+import { fetchCatsLiked, fetchCats } from '../store/cats/catsSlice';
 import Header from '../components/header/Header';
 import Card from '../components/card/Card';
 import style from './App.module.css';
@@ -11,16 +11,18 @@ export default function App() {
   const dispatch = useDispatch<AppDispatch>();
   const [renderedCats, setRenderedCats] = useState<'allCats' | 'likedCats'>('allCats');
 
-  const { cats, loading, error } = useSelector(
+  const { cats, error } = useSelector(
     (state: RootState) => state.cats
   );
 
   const handleAllCats = () => {
     setRenderedCats('allCats');
+    dispatch(fetchCats());
   }
 
   const handleLikedCats = () => {
     setRenderedCats('likedCats');
+    dispatch(fetchCatsLiked());
   }
 
   useEffect(() => {
