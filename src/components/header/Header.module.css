@@ -1,0 +1,22 @@
+.header {
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-style: border-box;
+  background-color: #2196f3;
+  padding: 0 62px;
+}
+
+.button {
+  height: 100%;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0 20px;
+
+}
+.button:hover,
+.button_active {
+  color: #ffffff;
+  background-color: #1E88E5;
+}
+

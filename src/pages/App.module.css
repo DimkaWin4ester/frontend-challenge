@@ -1,0 +1,9 @@
+
+.scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 47px;
+  padding: 52px 62px 48px 62px;
+  justify-content: center;
+}
+
