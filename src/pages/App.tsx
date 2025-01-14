@@ -9,45 +9,55 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
-  const [renderedCats, setRenderedCats] = useState<'allCats' | 'likedCats'>('allCats');
-
-  const { cats, error } = useSelector(
-    (state: RootState) => state.cats
+  const [renderedCats, setRenderedCats] = useState<'allCats' | 'likedCats'>(
+    'allCats'
   );
+
+  const { cats, error } = useSelector((state: RootState) => state.cats);
 
   const handleAllCats = () => {
     setRenderedCats('allCats');
     dispatch(fetchCats());
-  }
+  };
 
   const handleLikedCats = () => {
     setRenderedCats('likedCats');
     dispatch(fetchCatsLiked());
-  }
+  };
 
   useEffect(() => {
     dispatch(fetchCats());
-    if (document.documentElement.scrollHeight <= window.innerHeight) dispatch(fetchCats());
+    if (document.documentElement.scrollHeight <= window.innerHeight)
+      dispatch(fetchCats());
   }, [dispatch]);
 
   return (
     <>
-      <Header handleAllCats={handleAllCats} handleLikedCats={handleLikedCats} renderedCats={renderedCats}/>
+      <Header
+        handleAllCats={handleAllCats}
+        handleLikedCats={handleLikedCats}
+        renderedCats={renderedCats}
+      />
 
       <main className={style.main}>
-        <InfiniteScroll 
-          className={style.scroll}
-          dataLength={cats.length}
-          next={() => dispatch(fetchCats())}
-          hasMore={true}
-          loader={<p>... загружаем котиков ...</p>}
-        >
-          {cats.map((cat) => (
-            <Card key={cat.id} cat={cat} />
-          ))}
-        </InfiniteScroll>
+        {cats.length > 0 && (
+          <InfiniteScroll
+            className={style.scroll}
+            dataLength={cats.length}
+            next={() => dispatch(fetchCats())}
+            hasMore={true}
+            loader={<p>... загружаем котиков ...</p>}
+          >
+            {cats.map((cat) => (
+              <Card key={cat.id} cat={cat} />
+            ))}
+          </InfiniteScroll>
+        )}
       </main>
       {error && <p>{error}</p>}
+      {renderedCats === 'likedCats' && cats.length === 0 && (
+        <p className={style.text}>Нет любимых котяток</p>
+      )}
     </>
   );
 }
